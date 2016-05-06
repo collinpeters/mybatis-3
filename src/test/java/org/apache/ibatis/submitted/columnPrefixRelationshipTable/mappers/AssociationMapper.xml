@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Copyright 2009-2015 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.AssociationMapper">
+
+	<resultMap type="org.apache.ibatis.submitted.columnPrefixRelationshipTable.model.Association" id="AssociationResult">
+ 		<association property="id" resultMap="associationIdResult" />
+
+		<!-- Normal usage - I would expect this to work -->
+		<association property="client1" resultMap="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.ClientMapper.ClientResult" columnPrefix="one_" />
+		<association property="client2" resultMap="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.ClientMapper.ClientResult" columnPrefix="two_" />
+
+		<!-- columnPrefix doesn't seem to make a difference. It fails in the same spot. -->
+		<!-- 
+		<association property="client1" resultMap="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.ClientMapper.ClientResult" columnPrefix="foo" />
+		<association property="client2" resultMap="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.ClientMapper.ClientResult" columnPrefix="bar" />
+		 -->
+
+		<!-- When I have a local result map that extends the real one... it does work -->
+		<!-- 
+		<association property="client1" resultMap="localCopyOfClientResultMap" columnPrefix="one_" />
+		<association property="client2" resultMap="localCopyOfClientResultMap" columnPrefix="two_" />
+		 -->
+	</resultMap>
+		
+	<resultMap id="associationIdResult" type="org.apache.ibatis.submitted.columnPrefixRelationshipTable.model.AssociationId" >
+		<id column="associations_client_id1" property="clientId1"/>
+		<id column="associations_client_id2" property="clientId2"/>
+	</resultMap>
+
+	<resultMap id="localCopyOfClientResultMap" type="org.apache.ibatis.submitted.columnPrefixRelationshipTable.model.Client" 
+		extends="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.ClientMapper.ClientResult" />
+</mapper>

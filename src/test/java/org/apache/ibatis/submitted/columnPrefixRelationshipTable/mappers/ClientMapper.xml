@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Copyright 2009-2015 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.ClientMapper">
+
+	<resultMap type="org.apache.ibatis.submitted.columnPrefixRelationshipTable.model.Client" id="ClientResult">
+		<id column="clients_id" property="id"/>
+		<result column="clients_firstname" property="firstname" />
+		<result column="clients_lastname" property="lastname" />
+		<collection property="associations" resultMap="org.apache.ibatis.submitted.columnPrefixRelationshipTable.mappers.AssociationMapper.AssociationResult" />
+	</resultMap>
+	
+	<select id="load" resultMap="ClientResult">
+		select 
+		  clients.id clients_id, 
+		  clients.firstname clients_firstname,
+		  clients.lastname clients_lastname,
+		  associations.client_id1 associations_client_id1, 
+		  associations.client_id2 associations_client_id2, 
+		  associations.client_id1 one_clients_id, 
+		  associations.client_id2 two_clients_id
+		from clients
+		left outer join associations on clients.id in (
+			associations.client_id1, associations.client_id2
+		  )
+		where clients.id = 1
+	</select>
+
+</mapper>
