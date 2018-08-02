@@ -1,6 +1,7 @@
 MyBatis SQL Mapper Framework for Java
 =====================================
 
+[![DepShield Badge](https://staging.depshield.sonatype.org/badges/collinpeters/mybatis-3/depshield.svg)](https://sonatype.github.io/depshield-github-pages)
 
 [![Build Status](https://travis-ci.org/mybatis/mybatis-3.svg?branch=master)](https://travis-ci.org/mybatis/mybatis-3)
 [![Coverage Status](https://coveralls.io/repos/mybatis/mybatis-3/badge.svg?branch=master&service=github)](https://coveralls.io/github/mybatis/mybatis-3?branch=master)
